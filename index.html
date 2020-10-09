@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/darkly/bootstrap.min.css" integrity="sha384-nNK9n28pDUDDgIiIqZ/MiyO3F4/9vsMtReZK39klb/MtkZI3/LtjSjlmyVPS3KdN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.5/croppie.min.css" integrity="sha512-zxBiDORGDEAYDdKLuYU9X/JaJo/DPzE42UubfBw9yg8Qvb2YRRIQ8v4KsGHOx2H1/+sdSXyXxLXv5r7tHc9ygg==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="custom.css">
+    <title>Finisher Image Creator</title>
+  </head>
+  <body>
+    <div class="container mt-3">
+        <form id="inputForm">
+            <div class="row form-group justify-content-center">
+                <div class="col-md-6 mt-4 text-center">
+                    <h3>Fill out your info below</h3>
+                </div>
+            </div>
+            <div class="form-group row align-items-center">
+                <label for="nameInput" class="col-md-1 offset-2 col-form-label">Name:</label>
+                <input type="text" class="col-md-6 form-control ml-2" id="nameInput">
+            </div>
+            <div class="form-group row align-items-center">
+                <label for="swimInput" class="col-md-1 offset-2">Swim:</label>
+                <input type="number" class="col-md-2 form-control time-input" id="swimHours" placeholder="hours">
+                <input type="number" class="col-md-2 ml-2 form-control time-input" id="swimMinutes" placeholder="minutes">
+                <input type="number" class="col-md-2 ml-2 form-control time-input" id="swimSeconds" placeholder="seconds">
+            </div>
+            <div class="form-group row align-items-center">
+                <label for="swimInput" class="col-md-1 offset-2">Bike:</label>
+                <input type="number" class="col-md-2 form-control time-input" id="bikeHours" placeholder="hours">
+                <input type="number" class="col-md-2 ml-2 form-control time-input" id="bikeMinutes" placeholder="minutes">
+                <input type="number" class="col-md-2 ml-2 form-control time-input" id="bikeSeconds" placeholder="seconds">
+            </div>
+            <div class="form-group row align-items-center">
+                <label for="swimInput" class="col-md-1 offset-2">Run:</label>
+                <input type="number" class="col-md-2 form-control time-input" id="runHours" placeholder="hours">
+                <input type="number" class="col-md-2 ml-2 form-control time-input" id="runMinutes" placeholder="minutes">
+                <input type="number" class="col-md-2 ml-2 form-control time-input" id="runSeconds" placeholder="seconds">
+            </div>
+            <div class="form-group row align-items-center justify-content-center mt-4">
+                <div class="col-md-3">
+                    <label for="pictureUpload">Upload a picture</label>
+                    <input type="file" class="form-control-file" id="pictureUpload" aria-describedby="pictureHelp">
+                    <small id="pictureHelp" class="form-text text-muted">Your picture will not be stored anywhere.</small>
+                </div>
+            </div>
+            <div class="form-group row align-items-center justify-content-center mt-4 ">
+                <div class="col-md-6 upload-wrapper">
+                    <div id="upload-image"></div>
+                </div>
+            </div>
+            <div class="row upload-wrapper">
+                <div class="col text-center mt-5">
+                    <button type="button" class="btn btn-primary" id="submit-btn">Create My Results Page!</button>
+                </div>
+            </div>
+        </form>
+
+        <div id="resultPage" class="mt-5" hidden>
+            <div class="row">
+                <div class="col text-center">
+                    <h1>Good Job!</h1>
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col text-center">
+                    <canvas id="myCanvas" width="600" height="600" style="border:1px solid #c3c3c3;"></canvas>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col text-center">
+                    To download, right click the image and select "Save Image As..."
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col text-center">
+                    <button type="button" class="btn btn-info" id="restart-btn">Go Back</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.5/croppie.min.js" integrity="sha512-Gs+PsXsGkmr+15rqObPJbenQ2wB3qYvTHuJO6YJzPe/dTLvhy0fmae2BcnaozxDo5iaF8emzmCZWbQ1XXiX2Ig==" crossorigin="anonymous"></script>
+    <script src="make-image.js"></script>
+  </body>
+</html>
