@@ -5,8 +5,10 @@ if (typeof makeImage === 'undefined') {
 
 makeImage.draw = (function() {
 
-    var logoImage = new Image();
-    logoImage.src = "kona_logo.png";
+    var sprintLogo = new Image(), konaLogo = new Image(), olympicLogo = new Image();
+    sprintLogo.src = "sprint_logo.jpg";
+    konaLogo.src = "kona_logo.png";
+    olympicLogo.src = "olympic_logo.png";
 
     var userImage = new Image();
 
@@ -15,8 +17,23 @@ makeImage.draw = (function() {
     function createImage() {
         var context = $("#myCanvas")[0].getContext("2d");
 
+        var raceType = $("input:radio[name='raceRadios']:checked").val();
+
+        //Set the style. Default to PPF colors
+        var backgroundColor = "black";
+        var pictureBoarderColor = "#86764d"
+        var rowColor1 = "#86764d"
+        var rowColor2 = "#726342"
+
+        if (raceType == "kona-challenge") {
+            backgroundColor = "#00C2D2";
+            pictureBoarderColor = "white";
+            rowColor1 = "#456BAA"
+            rowColor2 = "#00C2D2"
+        }
+
         //Background
-        context.fillStyle = "#00C2D2";
+        context.fillStyle = backgroundColor;
         context.fillRect(0, 0, 600, 800);
 
         //Name box
@@ -26,23 +43,29 @@ makeImage.draw = (function() {
         //Picture border
         context.fillStyle = "white";
         context.fillRect(310, 197, 280, 280);
-        // context.fillStyle = "white";
-        // context.fillRect(313, 200, 274, 274);
+        context.fillStyle = pictureBoarderColor;
+        context.fillRect(313, 200, 274, 274);
 
         //Results boxes
         context.fillStyle = "white";
         context.fillRect(10, 197, 280, 280);
-        context.fillStyle = "#456BAA";
+        context.fillStyle = rowColor1;
         context.fillRect(15, 264, 270, 52);
-        context.fillStyle = "#00C2D2";
+        context.fillStyle = rowColor2;
         context.fillRect(15, 316, 270, 52);
-        context.fillStyle = "#456BAA";
+        context.fillStyle = rowColor1;
         context.fillRect(15, 368, 270, 52);
-        context.fillStyle = "#00C2D2";
+        context.fillStyle = rowColor2;
         context.fillRect(15, 420, 270, 52);
 
         //Draw top logo
-        context.drawImage(logoImage,0,0, 600, 187);
+        if (raceType == "ppf-sprint") {
+            context.drawImage(sprintLogo,0,0, 600, 187);
+        } else if (raceType == "kona-challenge") {
+            context.drawImage(konaLogo,0,0, 600, 187);
+        } else if (raceType == "ppf-olympic") {
+            context.drawImage(olympicLogo,0,0, 600, 187);
+        }
 
         //Render their picture
         $('#upload-image').croppie('result', {
@@ -56,122 +79,39 @@ makeImage.draw = (function() {
         });
 
         //Draw Results Text
-        context.font = "20pt Futura, Calibri, New Times Roman";
+        context.font = "20pt Arial, Arial, Helvetica";
         context.textBaseline = "middle";
         context.textAlign = "left";
         context.fillStyle = "#ffffff"; // white text
 
         context.fillText("Swim", 35, 290);
-        context.fillText(":", 140, 290);
-
-        context.fillText(readValue("swim"), 175, 290);
+        context.fillText(":", 120, 290);
+        context.fillText(readValue("swim"), 150, 290);
         context.fillText("Bike", 35, 342);
-        context.fillText(":", 140, 342);
-        context.fillText(readValue("bike"), 175, 342);
+        context.fillText(":", 120, 342);
+        context.fillText(readValue("bike"), 150, 342);
         context.fillText("Run", 35, 394);
-        context.fillText(":", 140, 394);
-        context.fillText(readValue("run"), 175, 394);
+        context.fillText(":", 120, 394);
+        context.fillText(readValue("run"), 150, 394);
         context.fillText("Total", 35, 446);
-        context.fillText(":", 140, 446);
-        context.fillText(calculateTotal(), 175, 446);
+        context.fillText(":", 120, 446);
+        context.fillText(calculateTotal(), 150, 446);
 
         //Align center for the name and results title
         context.fillStyle = "#000000"; // black text
         context.textAlign = "center";
 
-        context.font = "30pt Futura, Calibri, New Times Roman";
+        context.font = "30pt Arial, Arial, Helvetica";
         context.fillText("Results", 140, 232);
         
         //Grab the name and figure out 1 line or two
         var name = $("#nameInput").val();
         if (name.length > 20) {
-            context.font = "30pt Futura, Calibri, New Times Roman";
+            context.font = "30pt Arial, Arial, Helvetica";
             context.fillText(name.substr(0,name.indexOf(' ')), 300, 525);
             context.fillText(name.substr(name.indexOf(' ')+1), 300, 565);
         } else {
-            context.font = "40pt Futura, Calibri, New Times Roman";
-            context.fillText(name, 300, 545);
-        }
-    }
-
-    function createImage_old() {
-        var context = $("#myCanvas")[0].getContext("2d");
-
-        //Background
-        context.fillStyle = "black";
-        context.fillRect(0, 0, 600, 800);
-
-        //Name box
-        context.fillStyle = "white";
-        context.fillRect(10, 490, 580, 100);
-
-        //Picture border
-        context.fillStyle = "white";
-        context.fillRect(310, 197, 280, 280);
-        context.fillStyle = "#86764d";
-        context.fillRect(313, 200, 274, 274);
-
-        //Results boxes
-        context.fillStyle = "white";
-        context.fillRect(10, 197, 280, 280);
-        context.fillStyle = "#86764d";
-        context.fillRect(15, 264, 270, 52);
-        context.fillStyle = "#726342";
-        context.fillRect(15, 316, 270, 52);
-        context.fillStyle = "#86764d";
-        context.fillRect(15, 368, 270, 52);
-        context.fillStyle = "#726342";
-        context.fillRect(15, 420, 270, 52);
-
-        //Draw top logo
-        context.drawImage(logoImage,0,0, 600, 187);
-
-        //Render their picture
-        $('#upload-image').croppie('result', {
-            type: 'canvas',
-            size: 'viewport'
-        }).then(function (resp) {
-            userImage.src = resp;
-            userImage.onload = function() {
-                context.drawImage(userImage, 316, 203, 268, 268);
-            }
-        });
-
-        //Draw Results Text
-        context.font = "20pt Futura, Calibri, New Times Roman";
-        context.textBaseline = "middle";
-        context.textAlign = "left";
-        context.fillStyle = "#ffffff"; // white text
-
-        context.fillText("Swim", 35, 290);
-        context.fillText(":", 140, 290);
-
-        context.fillText(readValue("swim"), 175, 290);
-        context.fillText("Bike", 35, 342);
-        context.fillText(":", 140, 342);
-        context.fillText(readValue("bike"), 175, 342);
-        context.fillText("Run", 35, 394);
-        context.fillText(":", 140, 394);
-        context.fillText(readValue("run"), 175, 394);
-        context.fillText("Total", 35, 446);
-        context.fillText(":", 140, 446);
-        context.fillText(calculateTotal(), 175, 446);
-
-        //Align center for the name and results title
-        context.fillStyle = "#000000"; // black text
-        context.textAlign = "center";
-
-        context.font = "30pt Futura, Calibri, New Times Roman";
-        context.fillText("Results", 140, 232);
-        
-        //Grab the name and figure out 1 line or two
-        var name = $("#nameInput").val();
-        if (name.length > 20) {
-            context.font = "30pt Futura, Calibri, New Times Roman";
-            context.fillText(name.substr(0,name.indexOf(' ')), 300, 525);
-            context.fillText(name.substr(name.indexOf(' ')+1), 300, 565);
-        } else {
-            context.font = "40pt Futura, Calibri, New Times Roman";
+            context.font = "40pt Arial, Arial, Helvetica";
             context.fillText(name, 300, 545);
         }
     }
@@ -202,7 +142,18 @@ makeImage.draw = (function() {
         var minuteId = "#" + type + "Minutes";
         var secondId = "#" + type + "Seconds";
 
-        return $(hourId).val() + ":" + $(minuteId).val() + ":"+ $(secondId).val();
+        return normalizeValue($(hourId).val()) + ":" + normalizeValue($(minuteId).val()) + ":"+ normalizeValue($(secondId).val());
+    }
+
+    function normalizeValue(val) {
+        var intVal = parseInt(val);
+        if (intVal == 0) {
+            return "00";
+        } else if (intVal < 10) {
+            return "0" + intVal;
+        } else {
+            return intVal;
+        }
     }
 
     function calculateTotal() {
@@ -220,25 +171,13 @@ makeImage.draw = (function() {
             minutes-= 60;
         }
 
-        if (hours == 0) {
-            hours = "00";
-        }
-
-        if (minutes == 0) {
-            minutes = "00";
-        }
-
-        if (seconds == 0) {
-            seconds = "00";
-        }
-
-        return hours + ":" + minutes +":" + seconds;
+        return normalizeValue(hours) + ":" + normalizeValue(minutes) +":" + normalizeValue(seconds);
     }
 
     function validateInput() {
         $(".time-input").each( function(){ 
-            if ($(this).val() == "") {
-                $(this).val("00");
+            if ($(this).val() == "" || isNaN(parseInt($(this).val()))) {
+                $(this).val("0");
             }
         });
     }
