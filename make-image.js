@@ -5,10 +5,11 @@ if (typeof makeImage === 'undefined') {
 
 makeImage.draw = (function() {
 
-    var sprintLogo = new Image(), konaLogo = new Image(), olympicLogo = new Image();
+    var sprintLogo = new Image(), konaLogo = new Image(), olympicLogo = new Image(), halfLogo = new Image();
     sprintLogo.src = "sprint_logo.jpg";
     konaLogo.src = "kona_logo.png";
     olympicLogo.src = "olympic_logo.png";
+		halfLogo.src = "703_logo.png";
 
     var userImage = new Image();
 
@@ -30,7 +31,12 @@ makeImage.draw = (function() {
             pictureBoarderColor = "white";
             rowColor1 = "#456BAA"
             rowColor2 = "#00C2D2"
-        }
+        } else if (raceType == "ppf-70.3") {
+						backgroundColor = "black";
+						pictureBoarderColor = "#57859B";
+						rowColor1 = "#B0C4C8";
+						rowColor2 = "#57859B";
+				}
 
         //Background
         context.fillStyle = backgroundColor;
@@ -65,7 +71,9 @@ makeImage.draw = (function() {
             context.drawImage(konaLogo,0,0, 600, 187);
         } else if (raceType == "ppf-olympic") {
             context.drawImage(olympicLogo,0,0, 600, 187);
-        }
+        } else if (raceType == "ppf-70.3") {
+					  context.drawImage(halfLogo,0,0,600,187);
+				}
 
         //Render their picture
         $('#upload-image').croppie('result', {
@@ -103,7 +111,7 @@ makeImage.draw = (function() {
 
         context.font = "30pt Arial, Arial, Helvetica";
         context.fillText("Results", 140, 232);
-        
+
         //Grab the name and figure out 1 line or two
         var name = $("#nameInput").val();
         if (name.length > 20) {
@@ -119,7 +127,7 @@ makeImage.draw = (function() {
     function readFile(input) {
         if (input.files && input.files[0]) {
            var reader = new FileReader();
-           
+
            reader.onload = function (e) {
                $('.upload-wrapper').addClass('ready');
                $uploadCrop.croppie('bind', {
@@ -127,9 +135,9 @@ makeImage.draw = (function() {
                }).then(function(){
                    console.log('jQuery bind complete');
                });
-               
+
            }
-           
+
            reader.readAsDataURL(input.files[0]);
        }
        else {
@@ -175,7 +183,7 @@ makeImage.draw = (function() {
     }
 
     function validateInput() {
-        $(".time-input").each( function(){ 
+        $(".time-input").each( function(){
             if ($(this).val() == "" || isNaN(parseInt($(this).val()))) {
                 $(this).val("0");
             }
