@@ -6,7 +6,7 @@ if (typeof makeImage === 'undefined') {
 makeImage.draw = (function() {
 
     var sprintLogo = new Image(), konaLogo = new Image(), olympicLogo = new Image(), halfLogo = new Image();
-    sprintLogo.src = "sprint_logo.jpg";
+    sprintLogo.src = "sprint_logo.JPG";
     konaLogo.src = "kona_logo.png";
     olympicLogo.src = "olympic_logo.png";
 		halfLogo.src = "703_logo.png";
